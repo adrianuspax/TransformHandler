@@ -1,0 +1,23 @@
+{
+    "name": "com.adrianuspax.pivot",
+    "displayName": "Pivot Component",
+    "description": "Pivot custom component fot Unity",
+    "version": "1.0.4",
+    "unity": "2017.1",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/adrianuspax/Pivot.git"
+    },
+    "author": {
+    "name": "Adriano Sampaio Paz",
+    "email": "contato@adrianopaz.com",
+    "url": "https://github.com/adrianuspax"
+  }, 
+    "keywords": [
+      "unity",
+      "scripts",
+      "utilities",
+      "pivot"
+    ]   
+  }
