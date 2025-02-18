@@ -36,12 +36,18 @@ namespace ASP.Custom
 #endif
         [Space(20, order = 0)]
         [SerializeField, ReadOnly] private bool isItRectTransform;
-        [SerializeField, ReadOnly] private RectTransform rectTransform;
-        [SerializeField, ReadOnly] private Camera mainCamera;
+
+        private RectTransform _rectTransform;
+        private static Camera _mainCamera;
         /// Awake is called when an enabled script instance is being loaded.
         private void Awake()
         {
             ComponentsAssignment();
+        }
+        /// Start is called on the frame when a script is enabled just before any of the Update methods are called the first time.
+        private void Start()
+        {
+            _mainCamera = Camera.main;
         }
         /// <summary>
         /// Assignment of components and variables
@@ -49,16 +55,13 @@ namespace ASP.Custom
         [ContextMenu("Components Assignment")]
         private void ComponentsAssignment()
         {
-            if (rectTransform == null)
+            if (_rectTransform == null)
             {
                 isItRectTransform = TryGetComponent(out RectTransform rectTransform);
 
                 if (isItRectTransform)
-                    this.rectTransform = rectTransform;
+                    _rectTransform = rectTransform;
             }
-
-            if (mainCamera == null)
-                mainCamera = Camera.main;
         }
         /// <summary>
         /// Set the anchored position of the RectTransform if it has
@@ -66,7 +69,7 @@ namespace ASP.Custom
         private void SetAchoredPosition(Vector3 anchoredPosition)
         {
             if (isItRectTransform)
-                rectTransform.anchoredPosition = anchoredPosition;
+                _rectTransform.anchoredPosition = anchoredPosition;
         }
         /// <summary>
         /// Get the anchored position of the RectTransform
@@ -74,14 +77,14 @@ namespace ASP.Custom
         private Vector3 GetAnchoredPosition()
         {
             if (isItRectTransform)
-                return rectTransform.anchoredPosition;
+                return _rectTransform.anchoredPosition;
             else
                 return Vector3.zero;
         }
         /// <summary>
         /// Return Rect Trabsform if it has
         /// </summary>
-        public RectTransform RectTransform => rectTransform;
+        public RectTransform RectTransform => _rectTransform;
         /// <summary>
         /// Get or Set local scale
         /// </summary>
@@ -96,11 +99,14 @@ namespace ASP.Custom
 
                 if (isNaN_x || isNaN_y || isNaN_z)
                 {
-                    var x = isNaN_x ? 0f : value.x;
-                    var y = isNaN_y ? 0f : value.y;
-                    var z = isNaN_z ? 0f : value.z;
+                    var vector = new Vector3
+                    {
+                        x = isNaN_x ? 0f : value.x,
+                        y = isNaN_y ? 0f : value.y,
+                        z = isNaN_z ? 0f : value.z
+                    };
 
-                    transform.localScale = new Vector3(x, y, z);
+                    transform.localScale = vector;
                 }
                 else
                 {
@@ -122,11 +128,14 @@ namespace ASP.Custom
 
                 if (isNaN_x || isNaN_y || isNaN_z)
                 {
-                    var x = isNaN_x ? 0f : value.x;
-                    var y = isNaN_y ? 0f : value.y;
-                    var z = isNaN_z ? 0f : value.z;
+                    var vector = new Vector3
+                    {
+                        x = isNaN_x ? 0f : value.x,
+                        y = isNaN_y ? 0f : value.y,
+                        z = isNaN_z ? 0f : value.z
+                    };
 
-                    transform.position = new Vector3(x, y, z);
+                    transform.position = vector;
                 }
                 else
                 {
@@ -148,11 +157,14 @@ namespace ASP.Custom
 
                 if (isNaN_x || isNaN_y || isNaN_z)
                 {
-                    var x = isNaN_x ? 0f : value.x;
-                    var y = isNaN_y ? 0f : value.y;
-                    var z = isNaN_z ? 0f : value.z;
+                    var vector = new Vector3
+                    {
+                        x = isNaN_x ? 0f : value.x,
+                        y = isNaN_y ? 0f : value.y,
+                        z = isNaN_z ? 0f : value.z
+                    };
 
-                    transform.localPosition = new Vector3(x, y, z);
+                    transform.localPosition = vector;
                 }
                 else
                 {
@@ -174,11 +186,14 @@ namespace ASP.Custom
 
                 if (isNaN_x || isNaN_y || isNaN_z)
                 {
-                    var x = isNaN_x ? 0f : value.x;
-                    var y = isNaN_y ? 0f : value.y;
-                    var z = isNaN_z ? 0f : value.z;
+                    var vector = new Vector3
+                    {
+                        x = isNaN_x ? 0f : value.x,
+                        y = isNaN_y ? 0f : value.y,
+                        z = isNaN_z ? 0f : value.z
+                    };
 
-                    SetAchoredPosition(new Vector3(x, y, z));
+                    SetAchoredPosition(vector);
                 }
                 else
                 {
@@ -199,14 +214,17 @@ namespace ASP.Custom
                 var isNaN_z = float.IsNaN(value.z);
                 var isNaN_w = float.IsNaN(value.w);
 
-                if (isNaN_x || isNaN_y || isNaN_z)
+                if (isNaN_x || isNaN_y || isNaN_z || isNaN_w)
                 {
-                    var x = isNaN_x ? 0f : value.x;
-                    var y = isNaN_y ? 0f : value.y;
-                    var z = isNaN_z ? 0f : value.z;
-                    var w = isNaN_w ? 0f : value.w;
+                    var quaternion = new Quaternion
+                    {
+                        x = isNaN_x ? 0f : value.x,
+                        y = isNaN_y ? 0f : value.y,
+                        z = isNaN_z ? 0f : value.z,
+                        w = isNaN_w ? 0f : value.w
+                    };
 
-                    transform.rotation = new Quaternion(x, y, z, w);
+                    transform.rotation = quaternion;
                 }
                 else
                 {
@@ -227,14 +245,17 @@ namespace ASP.Custom
                 var isNaN_z = float.IsNaN(value.z);
                 var isNaN_w = float.IsNaN(value.w);
 
-                if (isNaN_x || isNaN_y || isNaN_z)
+                if (isNaN_x || isNaN_y || isNaN_z || isNaN_w)
                 {
-                    var x = isNaN_x ? 0f : value.x;
-                    var y = isNaN_y ? 0f : value.y;
-                    var z = isNaN_z ? 0f : value.z;
-                    var w = isNaN_w ? 0f : value.w;
+                    var quaternion = new Quaternion
+                    {
+                        x = isNaN_x ? 0f : value.x,
+                        y = isNaN_y ? 0f : value.y,
+                        z = isNaN_z ? 0f : value.z,
+                        w = isNaN_w ? 0f : value.w
+                    };
 
-                    transform.localRotation = new Quaternion(x, y, z, w);
+                    transform.localRotation = quaternion;
                 }
                 else
                 {
@@ -256,11 +277,14 @@ namespace ASP.Custom
 
                 if (isNaN_x || isNaN_y || isNaN_z)
                 {
-                    var x = isNaN_x ? 0f : value.x;
-                    var y = isNaN_y ? 0f : value.y;
-                    var z = isNaN_z ? 0f : value.z;
+                    var vector = new Vector3
+                    {
+                        x = isNaN_x ? 0f : value.x,
+                        y = isNaN_y ? 0f : value.y,
+                        z = isNaN_z ? 0f : value.z
+                    };
 
-                    transform.eulerAngles = new Vector3(x, y, z);
+                    transform.eulerAngles = vector;
                 }
                 else
                 {
@@ -282,11 +306,14 @@ namespace ASP.Custom
 
                 if (isNaN_x || isNaN_y || isNaN_z)
                 {
-                    var x = isNaN_x ? 0f : value.x;
-                    var y = isNaN_y ? 0f : value.y;
-                    var z = isNaN_z ? 0f : value.z;
+                    var vector = new Vector3
+                    {
+                        x = isNaN_x ? 0f : value.x,
+                        y = isNaN_y ? 0f : value.y,
+                        z = isNaN_z ? 0f : value.z
+                    };
 
-                    transform.localEulerAngles = new Vector3(x, y, z);
+                    transform.localEulerAngles = vector;
                 }
                 else
                 {
@@ -299,7 +326,7 @@ namespace ASP.Custom
         /// </summary>
         public Vector3 ScreenToWorldPointPosition
         {
-            get => mainCamera.ScreenToWorldPoint(transform.position);
+            get => _mainCamera.ScreenToWorldPoint(transform.position);
             set
             {
                 var isNaN_x = float.IsNaN(value.x);
@@ -308,15 +335,18 @@ namespace ASP.Custom
 
                 if (isNaN_x || isNaN_y || isNaN_z)
                 {
-                    var x = isNaN_x ? 0f : value.x;
-                    var y = isNaN_y ? 0f : value.y;
-                    var z = isNaN_z ? 0f : value.z;
+                    var vector = new Vector3
+                    {
+                        x = isNaN_x ? 0f : value.x,
+                        y = isNaN_y ? 0f : value.y,
+                        z = isNaN_z ? 0f : value.z
+                    };
 
-                    transform.position = mainCamera.ScreenToWorldPoint(new Vector3(x, y, z));
+                    transform.position = _mainCamera.ScreenToWorldPoint(vector);
                 }
                 else
                 {
-                    transform.position = mainCamera.ScreenToWorldPoint(value);
+                    transform.position = _mainCamera.ScreenToWorldPoint(value);
                 }
             }
         }
@@ -325,7 +355,7 @@ namespace ASP.Custom
         /// </summary>
         public Vector3 ScreenToWorldPointLocalPosition
         {
-            get => mainCamera.ScreenToWorldPoint(transform.localPosition);
+            get => _mainCamera.ScreenToWorldPoint(transform.localPosition);
             set
             {
                 var isNaN_x = float.IsNaN(value.x);
@@ -334,15 +364,18 @@ namespace ASP.Custom
 
                 if (isNaN_x || isNaN_y || isNaN_z)
                 {
-                    var x = isNaN_x ? 0f : value.x;
-                    var y = isNaN_y ? 0f : value.y;
-                    var z = isNaN_z ? 0f : value.z;
+                    var vector = new Vector3
+                    {
+                        x = isNaN_x ? 0f : value.x,
+                        y = isNaN_y ? 0f : value.y,
+                        z = isNaN_z ? 0f : value.z
+                    };
 
-                    transform.localPosition = mainCamera.ScreenToWorldPoint(new Vector3(x, y, z));
+                    transform.localPosition = _mainCamera.ScreenToWorldPoint(vector);
                 }
                 else
                 {
-                    transform.localPosition = mainCamera.ScreenToWorldPoint(value);
+                    transform.localPosition = _mainCamera.ScreenToWorldPoint(value);
                 }
             }
         }
@@ -351,7 +384,7 @@ namespace ASP.Custom
         /// </summary>
         public Vector3 ScreenToWorldPointAnchoredPosition
         {
-            get => mainCamera.ScreenToWorldPoint(GetAnchoredPosition());
+            get => _mainCamera.ScreenToWorldPoint(GetAnchoredPosition());
             set
             {
                 var isNaN_x = float.IsNaN(value.x);
@@ -360,18 +393,25 @@ namespace ASP.Custom
 
                 if (isNaN_x || isNaN_y || isNaN_z)
                 {
-                    var x = isNaN_x ? 0f : value.x;
-                    var y = isNaN_y ? 0f : value.y;
-                    var z = isNaN_z ? 0f : value.z;
+                    var vector = new Vector3
+                    {
+                        x = isNaN_x ? 0f : value.x,
+                        y = isNaN_y ? 0f : value.y,
+                        z = isNaN_z ? 0f : value.z
+                    };
 
-                    SetAchoredPosition(mainCamera.ScreenToWorldPoint(new Vector3(x, y, z)));
+                    SetAchoredPosition(_mainCamera.ScreenToWorldPoint(vector));
                 }
                 else
                 {
-                    SetAchoredPosition(mainCamera.ScreenToWorldPoint(value));
+                    SetAchoredPosition(_mainCamera.ScreenToWorldPoint(value));
                 }
             }
         }
+        /// <summary>
+        /// Return main camera (<see cref="Camera.main"/>) initialized in Awake
+        /// </summary>
+        public static Camera MainCamera => _mainCamera;
     }
 }
 

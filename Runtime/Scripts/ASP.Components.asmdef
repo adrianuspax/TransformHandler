@@ -1,7 +1,9 @@
 {
     "name": "ASP.Components",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:7112c82b7aaa69840b088105586afcd6"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
