@@ -1,6 +1,6 @@
 {
-    "name": "ASPax.Utilities",
-    "rootNamespace": "",
+    "name": "ASPax.STransform",
+    "rootNamespace": "ASPax.Utilities",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

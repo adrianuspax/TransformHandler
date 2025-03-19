@@ -2,7 +2,7 @@
     "name": "com.adrianuspax.stransform",
     "displayName": "Safety Transform Component",
     "description": "Transform custom component fot Unity",
-    "version": "2.0.1",
+    "version": "3.0.0",
     "unity": "2017.1",
     "license": "MIT",
     "repository": {
