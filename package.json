@@ -1,13 +1,13 @@
 {
-    "name": "com.adrianuspax.pivot",
-    "displayName": "Pivot Component",
-    "description": "Pivot custom component fot Unity",
-    "version": "2.0.0",
+    "name": "com.adrianuspax.stransform",
+    "displayName": "Safety Transform Component",
+    "description": "Transform custom component fot Unity",
+    "version": "2.0.1",
     "unity": "2017.1",
     "license": "MIT",
     "repository": {
       "type": "git",
-      "url": "git+https://github.com/adrianuspax/Pivot.git"
+      "url": "git+https://github.com/adrianuspax/STransform.git"
     },
     "author": {
     "name": "Adriano Sampaio Paz",
@@ -18,6 +18,6 @@
       "unity",
       "scripts",
       "utilities",
-      "pivot"
+      "transform"
     ]   
   }
