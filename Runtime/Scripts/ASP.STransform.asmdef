@@ -1,9 +1,7 @@
 {
-    "name": "ASP.Components",
+    "name": "ASPax.Utilities",
     "rootNamespace": "",
-    "references": [
-        "GUID:7112c82b7aaa69840b088105586afcd6"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

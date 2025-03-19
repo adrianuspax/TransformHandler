@@ -1,44 +1,81 @@
 using UnityEngine;
 
-namespace ASP.Custom
+namespace ASPax.Utilities
 {
     /// <summary>
-    /// Easy and safe access of all elements from transform and rect transform
+    /// Easy and safety access of all elements from transform, rectTransform and Screen/World Positions
     /// </summary>
-    public class Pivot : MonoBehaviour
+    public class STransform : MonoBehaviour
     {
 #if UNITY_EDITOR
-#pragma warning disable IDE0052
-        [Header("PIVOT", order = 0)]
+        [Header("VALUES - Editor Test", order = 0)]
+        [SerializeField] private Vector3 position;
+        [SerializeField] private Vector3 localPosition;
+        [SerializeField] private Vector3 anchoredPosition;
+        [SerializeField] private Vector3 localScale;
         [Space(20, order = 0)]
-        [SerializeField, ReadOnly] private Vector3 position;
-        [SerializeField, ReadOnly] private Vector3 localPosition;
-        [SerializeField, ReadOnly] private Vector3 anchoredPosition;
-        [SerializeField, ReadOnly] private Vector3 localScale;
+        [SerializeField] private Quaternion rotation;
+        [SerializeField] private Quaternion localRotation;
+        [SerializeField] private Vector3 eulerAngles;
+        [SerializeField] private Vector3 localEulerAngles;
         [Space(20, order = 0)]
-        [SerializeField, ReadOnly] private Quaternion rotation;
-        [SerializeField, ReadOnly] private Quaternion localRotation;
-        [SerializeField, ReadOnly] private Vector3 eulerAngles;
-        [SerializeField, ReadOnly] private Vector3 localEulerAngles;
-#pragma warning restore IDE0052
+        [SerializeField] private Vector3 screenToWorldPointPosition;
+        [SerializeField] private Vector3 screenToWorldPointLocalPosition;
+        [SerializeField] private Vector3 screenToWorldPointAnchoredPosition;
+        /// Reset to default values.
+        private void Reset()
+        {
+            AssignValues();
+        }
+        /// Editor-only function that Unity calls when the script is loaded or a value changes in the Inspector.
+        private void OnValidate()
+        {
+            UnityEditor.EditorApplication.delayCall += () =>
+            {
+                bool conditional =
+                UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode ||
+                UnityEditor.EditorApplication.isCompiling ||
+                UnityEditor.EditorApplication.isUpdating;
+
+                if (conditional)
+                    return;
+
+                try
+                {
+                    AssignValues();
+                }
+                catch
+                {
+                    return;
+                }
+            };
+        }
         /// Update is called every frame, if the MonoBehaviour is enabled.
         private void Update()
         {
-            position = transform.position;
-            localPosition = transform.localPosition;
-            rotation = transform.rotation;
-            localRotation = transform.localRotation;
-            eulerAngles = transform.eulerAngles;
-            localEulerAngles = transform.localEulerAngles;
-            localScale = transform.localScale;
+            AssignValues();
+        }
+        /// <summary>
+        /// Assign values to the serialized fields
+        /// </summary>
+        private void AssignValues()
+        {
+            position = Position;
+            localPosition = LocalPosition;
+            rotation = Rotation;
+            localRotation = LocalRotation;
+            eulerAngles = EulerAngles;
+            localEulerAngles = LocalEulerAngles;
+            localScale = Scale;
             anchoredPosition = GetAnchoredPosition();
+            screenToWorldPointPosition = ScreenToWorldPointPosition;
+            screenToWorldPointLocalPosition = ScreenToWorldPointLocalPosition;
+            screenToWorldPointAnchoredPosition = ScreenToWorldPointAnchoredPosition;
         }
 #endif
-        [Space(20, order = 0)]
-        [SerializeField, ReadOnly] private bool isItRectTransform;
-
+        private bool _isItRectTransform;
         private RectTransform _rectTransform;
-        private static Camera _mainCamera;
+        private Camera _mainCamera;
         /// Awake is called when an enabled script instance is being loaded.
         private void Awake()
         {
@@ -57,9 +94,9 @@ namespace ASP.Custom
         {
             if (_rectTransform == null)
             {
-                isItRectTransform = TryGetComponent(out RectTransform rectTransform);
+                _isItRectTransform = TryGetComponent(out RectTransform rectTransform);
 
-                if (isItRectTransform)
+                if (_isItRectTransform)
                     _rectTransform = rectTransform;
             }
         }
@@ -68,7 +105,7 @@ namespace ASP.Custom
         /// </summary>
         private void SetAchoredPosition(Vector3 anchoredPosition)
         {
-            if (isItRectTransform)
+            if (_isItRectTransform)
                 _rectTransform.anchoredPosition = anchoredPosition;
         }
         /// <summary>
@@ -76,15 +113,27 @@ namespace ASP.Custom
         /// </summary>
         private Vector3 GetAnchoredPosition()
         {
-            if (isItRectTransform)
+            if (_isItRectTransform)
                 return _rectTransform.anchoredPosition;
             else
                 return Vector3.zero;
         }
         /// <summary>
+        /// Return main camera (<see cref="Camera.main"/>) initialized in Awake if it exists using out parameter
+        /// </summary>
+        /// <returns>if exists return true</returns>
+        /// <remarks>This function must be called after Start( )</remarks>
+        public bool TryGetMainCamera(out Camera camera)
+        {
+            var isNull = _mainCamera == null;
+            camera = isNull ? null : _mainCamera;
+            return isNull;
+        }
+        /// <summary>
         /// Return Rect Trabsform if it has
         /// </summary>
         public RectTransform RectTransform => _rectTransform;
+        public int TestInt { get; set; }
         /// <summary>
         /// Get or Set local scale
         /// </summary>
@@ -408,10 +457,6 @@ namespace ASP.Custom
                 }
             }
         }
-        /// <summary>
-        /// Return main camera (<see cref="Camera.main"/>) initialized in Awake
-        /// </summary>
-        public static Camera MainCamera => _mainCamera;
     }
 }
 
