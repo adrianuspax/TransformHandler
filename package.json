@@ -15,7 +15,8 @@
     "url": "https://github.com/adrianuspax"
   },
   "dependencies": {
-    "com.adrianuspax.attributes": "https://github.com/adrianuspax/Attributes.git"
+    "com.adrianuspax.attributes": "git+https://github.com/adrianuspax/Attributes.git",
+    "version": "4.0.0"
   },
   "samples": [
     {
