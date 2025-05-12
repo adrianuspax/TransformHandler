@@ -13,10 +13,7 @@
     "name": "Adriano Sampaio Paz",
     "email": "contato@adrianopaz.com",
     "url": "https://github.com/adrianuspax"
-  },
-  "dependencies": {
-    "com.adrianuspax.attributes": "https://github.com/adrianuspax/Attributes.git#1.0.0",
-  },
+  }, 
   "samples": [
     {
       "displayName": "Demo Scene",
